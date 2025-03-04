@@ -128,6 +128,11 @@ const CreateZones = () => {
                 //error
                }
             }else{
+                if(paths.length < 4 ){
+                    alert('Please select atleast 4 corner to zones')
+                    setIsProcessing(false);
+                    return
+                }
             paths.forEach((element, index) => {
                 let valuePush = [element.lng, element.lat]
                 path_m.push(valuePush)
@@ -155,7 +160,7 @@ const CreateZones = () => {
     };
 
     const getOffsetCoordinates = (lat, lon, distance, bearing) => {
-        console.log("cdd",lat,lon);
+  
         
         const angularDistance = distance / EARTH_RADIUS;
         const bearingRad = (bearing * Math.PI) / 180; // Convert bearing to radians
