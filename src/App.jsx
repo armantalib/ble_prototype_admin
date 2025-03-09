@@ -50,6 +50,7 @@ import GradeDetail from "./components/pages/gradeDetail";
 import CreateGradeDetail from "./components/pages/createGradeDetail";
 import Zones from "./components/pages/zones";
 import CreateZones from "./components/pages/createZones";
+import { GoogleMap, LoadScript, Polygon, Autocomplete, Marker, useLoadScript,useJsApiLoader } from "@react-google-maps/api";
 
 
 const NavHeader = lazy(() => import('./components/header/navHeader'));
@@ -92,6 +93,7 @@ function App() {
   return (
     <>
       <SidebarMenu toggled={toggled} setBroken={setBroken} broken={broken} setToggled={setToggled}>
+           <LoadScript googleMapsApiKey={global.GoogleApiKey} libraries={["places"]}>
         {isLogin && <NavHeader toggled={toggled} setBroken={setBroken} broken={broken} setToggled={setToggled} />}
         <Suspense fallback={
           <main className='h-screen flex flex-col justify-center items-center'>
@@ -154,6 +156,7 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
+        </LoadScript>
       </SidebarMenu>
     </>
   );
