@@ -18,7 +18,7 @@ const EARTH_RADIUS = 6378137;
 
 const CreateZones = () => {
     const [isProcessing, setIsProcessing] = useState(false);
-    const [addManualLatLng, setAddManualLatLng] = useState(false);
+    const [addManualLatLng, setAddManualLatLng] = useState(true);
     const [input, setInput] = useState({
         title: '',
         latitude: '',
@@ -28,7 +28,7 @@ const CreateZones = () => {
     const [isDrawing, setIsDrawing] = useState(true);
     const autocompleteRef = useRef(null);
     const [key, setKey] = useState(1);
-    const [map, setMap] = useState(true);
+    const [map, setMap] = useState(false);
     const [center, setCenter] = useState({ lat: 40.7128, lng: -74.006 }); // Default center (New York City)
     const [markerPosition, setMarkerPosition] = useState(null);
     const [singleData, setSingleData] = useState(null);
@@ -70,7 +70,12 @@ const CreateZones = () => {
             })
 
             setPaths(path_m)
-            setInput(prevState => ({ ...prevState, title: data?.title}))
+            setMap(true)
+            setInput(prevState => ({ ...prevState, 
+                title: data?.title,
+                latitude : JSON.stringify(path_m[0]?.lat),
+                longitude : path_m[0]?.lng
+            }))
         }
 
         return () => {
@@ -139,12 +144,14 @@ const CreateZones = () => {
 
                 if (check_lat_lon(parseFloat(input.latitude), parseFloat(input.longitude))) {
                     //do nothing
-                    const distance = 40; // 20 meters
-                    const bearings = [0, 90, 180, 270];
-                    const coordinates = bearings.map((bearing) =>
-                        getOffsetCoordinates(parseFloat(input.latitude), parseFloat(input.longitude), distance, bearing)
-                    );
-                    coordinates.push(coordinates[0]);
+                    // const distance = 40; // 20 meters
+                    // const bearings = [0, 90, 180, 270];
+                    // const coordinates = bearings.map((bearing) =>
+                    //     getOffsetCoordinates(parseFloat(input.latitude), parseFloat(input.longitude), distance, bearing)
+                    // );
+                    // coordinates.push(coordinates[0]);
+                    const centerLa = [parseFloat(input.longitude), parseFloat(input.latitude)]
+                    const coordinates = generateCircleZone(centerLa, 20)
                     path_m = coordinates;
                     console.log("CE", coordinates);
                 } else {
@@ -172,8 +179,8 @@ const CreateZones = () => {
             }
             console.log("Path m", path_m);
             const getZone = await localStorage.getItem('zone_data')
- 
-            
+
+
             const data = {
                 title: input.title,
                 cords: path_m,
@@ -184,10 +191,10 @@ const CreateZones = () => {
                 id: singleData?._id,
             }
 
-            const endPoint =singleData?'general/admin/zone/update':'general/zone/create'
-            console.log("End Point",endPoint);
-            
-            const res = singleData?await dataPut(endPoint,data2):await dataPost(endPoint, data);
+            const endPoint = singleData ? 'general/admin/zone/update' : 'general/zone/create'
+            console.log("End Point", endPoint);
+
+            const res = singleData ? await dataPut(endPoint, data2) : await dataPost(endPoint, data);
             setIsProcessing(false);
             navigate('/zone');
 
@@ -224,6 +231,26 @@ const CreateZones = () => {
 
 
         return [newLon, newLat];
+    }
+
+    const generateCircleZone = (center, radius = 100, points = 20) => {
+        const [lng, lat] = center;
+        const coords = [];
+
+        for (let i = 0; i < points; i++) {
+            const angle = (i / points) * (2 * Math.PI);
+            const dx = radius * Math.cos(angle);
+            const dy = radius * Math.sin(angle);
+
+            // Adjust longitude conversion based on latitude
+            const newLng = lng + (dx / (111320 * Math.cos(lat * (Math.PI / 180))));
+            const newLat = lat + (dy / 110540);
+
+            coords.push([newLng, newLat]);
+        }
+        coords.push(coords[0]);
+
+        return coords
     }
 
     const regexLat = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/;
@@ -302,6 +329,7 @@ const CreateZones = () => {
 
 
                         : null}
+                        {singleData?
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div></div>
                         <button type='button' onClick={() => {
@@ -310,15 +338,15 @@ const CreateZones = () => {
                         }} style={{ backgroundColor: '#000', display: 'flex', alignSelf: 'flex-end' }} className="flex items-center justify-center p-2 bg_primary rounded-3">
                             <span className="plusJakara_semibold text_white">Clear Zone</span>
                         </button>
-                    </div>
+                    </div>:null}
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 50 }}>
                         <div></div>
-                        <Form.Label className="plusJakara_semibold text_dark">OR</Form.Label>
+                        {/* <Form.Label className="plusJakara_semibold text_dark">OR</Form.Label> */}
                         <div></div>
 
                     </div>
                     <Form.Label className="plusJakara_semibold text_dark"></Form.Label>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 1 }}>
+                    {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 1 }}>
                         <div></div>
                         <button type='button' onClick={() => {
                             if (addManualLatLng) {
@@ -334,13 +362,13 @@ const CreateZones = () => {
                         </button>
                         <div></div>
 
-                    </div>
+                    </div> */}
                     {addManualLatLng ?
                         <>
                             <Form.Label className="plusJakara_semibold text_dark">Latitude</Form.Label>
                             <Form.Control
                                 type='text'
-
+                                value={input.latitude}
                                 step="0.01"
                                 onChange={(e) => setInput(prevState => ({ ...prevState, latitude: e?.target?.value }))}
                                 // onChange={(e) => setQuizTime(e?.target?.value)}
@@ -352,7 +380,7 @@ const CreateZones = () => {
                             <Form.Label className="plusJakara_semibold text_dark mt-4">Longitude</Form.Label>
                             <Form.Control
                                 type='text'
-
+                                value={input.longitude}
                                 step="0.01"
                                 onChange={(e) => setInput(prevState => ({ ...prevState, longitude: e?.target?.value }))}
                                 // onChange={(e) => setQuizTime(e?.target?.value)}
@@ -365,7 +393,7 @@ const CreateZones = () => {
                 <div className="flex justify-end my-4 w-full mt-3">
                     {!isProcessing ? (
                         <button type='submit' style={{ backgroundColor: '#000' }} className="flex justify-center bg_primary py-3 px-4 rounded-3 items-center">
-                            <span className="plusJakara_semibold text_white">{singleData?'Update Zone':'Add Zone'}</span>
+                            <span className="plusJakara_semibold text_white">{singleData ? 'Update Zone' : 'Add Zone'}</span>
                         </button>
                     ) : (
                         <button type='button' disabled={isProcessing} style={{ backgroundColor: '#000' }} className="flex justify-center bg_primary py-3 px-5 rounded-3 items-center">

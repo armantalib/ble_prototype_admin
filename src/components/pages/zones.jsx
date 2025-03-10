@@ -20,7 +20,7 @@ const Zones = (props) => {
     const [totalPages, setTotalPages] = useState(1);
     const [showModal, setShowModal] = useState(false)
     const [paths, setPaths] = useState([]); // Store the polygon coordinates
-    const [isDrawing, setIsDrawing] = useState(true);
+    const [isDrawing, setIsDrawing] = useState(false);
     const [search, setSearch] = useState('');
     const [data, setData] = useState([])
     const [map, setMap] = useState(true);
