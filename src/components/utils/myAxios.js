@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-//  const mainUrl = "http://192.168.100.29:8090/api/";
+ const mainUrl = "http://192.168.100.32:8090/api/";
 //  const mainUrl = "https://app.digitallogic.app/api/";
- const mainUrl = "https://ble-pro-backend.onrender.com/api/";
+//  const mainUrl = "https://ble-pro-backend.onrender.com/api/";
  export const socketUrl = "https://api2.confidateapp.com/";
 
 

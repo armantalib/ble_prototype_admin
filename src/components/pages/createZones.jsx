@@ -53,7 +53,7 @@ const CreateZones = () => {
 
             let data = JSON.parse(getZone);
             setSingleData(data)
-            console.log("Zone Data", data.cords);
+            console.log("Zone Data", data);
             let path_m = [];
             data.cords.forEach((element, index) => {
                 let valuePush = {}
@@ -66,15 +66,15 @@ const CreateZones = () => {
             });
 
             setCenter({
-                lat: path_m[0]?.lat, lng: path_m[0]?.lng
+                lat: data?.location.coordinates[1], lng: data?.location?.coordinates[0]
             })
 
             setPaths(path_m)
             setMap(true)
             setInput(prevState => ({ ...prevState, 
                 title: data?.title,
-                latitude : JSON.stringify(path_m[0]?.lat),
-                longitude : path_m[0]?.lng
+                latitude : data?.location.coordinates[1],
+                longitude : data?.location.coordinates[0]
             }))
         }
 
@@ -180,15 +180,20 @@ const CreateZones = () => {
             console.log("Path m", path_m);
             const getZone = await localStorage.getItem('zone_data')
 
-
+            const centerL = {
+                type :"Point",
+                coordinates :[parseFloat(input.longitude),parseFloat(input.latitude)],
+            }
             const data = {
                 title: input.title,
                 cords: path_m,
+                location : centerL
             }
             const data2 = {
                 title: input.title,
                 cords: path_m,
                 id: singleData?._id,
+                location : centerL
             }
 
             const endPoint = singleData ? 'general/admin/zone/update' : 'general/zone/create'
