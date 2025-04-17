@@ -58,6 +58,7 @@ const SidebarMenu = lazy(() => import('./components/pages/sidebar'));
 const LoginPage1 = lazy(() => import('./components/auth/dynomoLogin1'));
 const Dashboard = lazy(() => import('./components/pages/dashboard'));
 const Parents = lazy(() => import('./components/pages/parents'));
+const ZoneExcel = lazy(() => import('./components/pages/zoneExcel'));
 
 function App() {
   const [toggled, setToggled] = useState(false);
@@ -126,6 +127,7 @@ function App() {
               <Route path="/grade/detail/create" element={<CreateGradeDetail />} />
               <Route path="/zone" element={<Zones />} />
               <Route path="/zone/create" element={<CreateZones />} />
+              <Route path="/accident-data" element={<ZoneExcel />} />
 
 
               <Route path="/parents" element={<Parents />} />
