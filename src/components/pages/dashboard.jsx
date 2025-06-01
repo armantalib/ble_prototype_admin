@@ -108,8 +108,7 @@ const Dashboard = () => {
                 <h6 className="text_secondary plusJakara_regular">Information about your current plan and usages</h6>
             </div>
             <div className="displaygrid_1 bg_white rounded-4 shadow-sm px-4 py-5 mb-3 h-auto w-full">
-            <div className="flex gap-4 justify-start w-full">
-</div>
+
                 <div className="flex gap-4 justify-start w-full">
                     <div style={{ backgroundColor: '#FFF2E9' }} className="rounded-4 w-auto p-3 h-auto flex items-center justify-center">
                         <img src={bag} className='w-3 h-auto' alt="" />
@@ -133,7 +132,35 @@ const Dashboard = () => {
                             <div className="flex items-center ms-5">
                                 <CircularProgress size={18} className='text_dark' />
                             </div> : */}
-                        <h5 className="plusJakara_semibold text_dark">{categories?.totalDates || 0}</h5>
+                        <h5 className="plusJakara_semibold text_dark">{categories?.totalZone || 0}</h5>
+                    </div>
+                </div>
+
+                <div className="flex gap-4 justify-start w-full">
+                    <div style={{ backgroundColor: '#EAF9FF' }} className="rounded-4 w-auto p-3 h-auto flex items-center justify-center">
+                        <img src={bag} className='w-3 h-auto' alt="" />
+                    </div>
+                    <div className="flex flex-col w-full">
+                        <span className="plusJakara_medium text_secondary">Total Accidents Point</span>
+                        {/* {!categories?.totalCourses ?
+                            <div className="flex items-center ms-5">
+                                <CircularProgress size={18} className='text_dark' />
+                            </div> : */}
+                        <h5 className="plusJakara_semibold text_dark">{categories?.totalAccidents || 0}</h5>
+                    </div>
+                </div>
+
+                <div className="flex gap-4 justify-start w-full">
+                    <div style={{ backgroundColor: '#FFEBEF' }} className="rounded-4 w-auto p-3 h-auto flex items-center justify-center">
+                        <img src={bag} className='w-3 h-auto' alt="" />
+                    </div>
+                    <div className="flex flex-col w-full">
+                        <span className="plusJakara_medium text_secondary">Total User Hazard</span>
+                        {/* {!categories?.totalCourses ?
+                            <div className="flex items-center ms-5">
+                                <CircularProgress size={18} className='text_dark' />
+                            </div> : */}
+                        <h5 className="plusJakara_semibold text_dark">{categories?.totalUserPoint || 0}</h5>
                     </div>
                 </div>
               

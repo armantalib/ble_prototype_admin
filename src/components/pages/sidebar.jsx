@@ -44,6 +44,7 @@ const SidebarMenu = ({ children, setToggled, toggled, setBroken }) => {
     const menuItems = [
         { image: dashboarddark, image2: dashboardlight, items: "Dashboard", path: '/dashboard' },
         { image: parentdark, image2: parentlight, items: "Users", path: '/users' },
+        { image: quizdark, image2: quizdark, items: "User Hazard", path: '/user-zone' },
         { image: quizdark, image2: quizdark, items: "Zones", path: '/zone' },
         { image: quizdark, image2: quizdark, items: "Accident Data", path: '/accident-data' },
         // {

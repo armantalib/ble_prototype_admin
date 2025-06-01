@@ -51,6 +51,7 @@ import CreateGradeDetail from "./components/pages/createGradeDetail";
 import Zones from "./components/pages/zones";
 import CreateZones from "./components/pages/createZones";
 import { GoogleMap, LoadScript, Polygon, Autocomplete, Marker, useLoadScript,useJsApiLoader } from "@react-google-maps/api";
+import UserZoneData from "./components/pages/userZoneData";
 
 
 const NavHeader = lazy(() => import('./components/header/navHeader'));
@@ -110,51 +111,15 @@ function App() {
             </Route>
             <Route element={<PrivateRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/children" element={<Children />} />
               <Route path="/users" element={<Users />} />
-              <Route path="/dates" element={<ConfiDates />} />
-              <Route path="/legal" element={<LegalResources />} />
-              <Route path="/legal/add-legal" element={<AddLegalResources />} />
-              <Route path="/safety" element={<SafetyResources />} />
-              <Route path="/safety/add-safety" element={<AddSafetyResources />} />
-              <Route path="/tests" element={<TestResults />} />
-              <Route path="/payments" element={<PaymentUsers />} />
-              <Route path="/questions" element={<Questions />} />
-              <Route path="/questions/create" element={<CreateQuetions />} />
-              <Route path="/grade" element={<Grade />} />
-              <Route path="/grade/create" element={<CreateGrade />} />
-              <Route path="/grade/detail" element={<GradeDetail />} />
-              <Route path="/grade/detail/create" element={<CreateGradeDetail />} />
+          
               <Route path="/zone" element={<Zones />} />
               <Route path="/zone/create" element={<CreateZones />} />
               <Route path="/accident-data" element={<ZoneExcel />} />
+              <Route path="/user-zone" element={<UserZoneData />} />
 
 
-              <Route path="/parents" element={<Parents />} />
-              <Route path="/parents/:id" element={<ParentsChild />} />
-              <Route path="/course-category" element={<Courses />} />
-              <Route path="/course-category/add-course" element={<AddCourse />} />
-              <Route path="/course-content" element={<CourseContent />} />
-              <Route path="/course-content/add-content" element={<AddCourseContent />} />
-              <Route path="/course-content/:id" element={<PreviewCourse />} />
-              <Route path="/course-content/update-course/:id" element={<UpdateCourse />} />
-              <Route path="/blogs" element={<Blog />} />
-              <Route path="/blogs/add-blog" element={<AddBlog />} />
-              <Route path="/blogs/blog-detail" element={<PreviewBlog />} />
-              <Route path="/blogs/update-blog/:id" element={<UpdateBlog />} />
-              <Route path="/blog-setting" element={<BlogSetting />} />
-              <Route path="/faq" element={<Faq />} />
-              <Route path="/customer-support" element={<CustomerSupport />} />
-              <Route path="/faq/add-faq" element={<AddFaq />} />
-              <Route path="/blog-setting/add-blogs-honeypots" element={<AddBlogHoneypots />} />
-              <Route path="/digital-products-parent" element={<DigitalProducts />} />
-              <Route path="/digital-products-parent/add-product" element={<AddProduct />} />
-              <Route path="/digital-products-child" element={<DigitalProductsChild />} />
-              <Route path="/digital-products-child/add-product" element={<AddProductChild />} />
-              <Route path="/quiz" element={<Quiz />} />
-              <Route path="/quiz/create-quiz" element={<CreateQuiz />} />
-              <Route path="/quiz/quiz-detail" element={<QuizDetail />} />
-              <Route path="/quiz/create-quiz/add-question" element={<AddQuestion />} />
+          
             </Route>
           </Routes>
         </Suspense>
